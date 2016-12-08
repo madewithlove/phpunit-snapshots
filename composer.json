@@ -14,6 +14,11 @@
             "Madewithlove\\PhpunitSnapshots\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Madewithlove\\PhpunitSnapshots\\": "tests"
+        }
+    },
     "require": {},
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.0",

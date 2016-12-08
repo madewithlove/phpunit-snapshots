@@ -2,12 +2,14 @@
 
 namespace Madewithlove\PhpunitSnapshots;
 
+use RuntimeException;
+
 trait SnapshotAssertions
 {
     /**
      * @var array
      */
-    private $assertionsInTest = [];
+    protected static $assertionsInTest = [];
 
     /**
      * Asserts that a given output matches a registered snapshot
@@ -22,18 +24,18 @@ trait SnapshotAssertions
      */
     protected function assertEqualsSnapshot($expected, $identifier = null, $message = null)
     {
+        $identifier = $this->getAssertionIdentifier($identifier);
         $snapshotPath = $this->getPathToSnapshot();
         $contents = $this->getSnapshotContents($snapshotPath);
 
         // If we already have a snapshot for this test, assert its contents
         // or update it if the --update flag was passed
-        $methodName = $this->getAssertionIdentifier($identifier);
-        if (!isset($contents[$methodName]) || $this->isUpdate()) {
-            $contents[$methodName] = $expected;
+        if (!isset($contents[$identifier]) || $this->isUpdate()) {
+            $contents[$identifier] = $expected;
             file_put_contents($snapshotPath, json_encode($contents, JSON_PRETTY_PRINT));
         }
 
-        $this->assertEquals($contents[$methodName], $expected, $message);
+        $this->assertEquals($contents[$identifier], $expected, $message);
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -49,12 +51,15 @@ trait SnapshotAssertions
      */
     private function getAssertionIdentifier($identifier)
     {
+        // Keep a registry of how many assertions were run
+        // in this test suite, and in this test
+        $className = get_class($this);
         $methodName = $this->getName();
-        if (!isset($this->assertionsInTest[$methodName])) {
-            $this->assertionsInTest[$methodName] = -1;
-        }
+        static::$assertionsInTest[$className][$methodName] = isset(static::$assertionsInTest[$className][$methodName])
+            ? static::$assertionsInTest[$className][$methodName]
+            : -1;
 
-        $name = $methodName.'-'.++$this->assertionsInTest[$methodName];
+        $name = $methodName.'-'.++static::$assertionsInTest[$className][$methodName];
         $name = $identifier ? $name.': '.$identifier : $name;
 
         return $name;
@@ -65,7 +70,7 @@ trait SnapshotAssertions
      */
     private function getPathToSnapshot()
     {
-        $parent = debug_backtrace()[1]['file'];
+        $parent = $this->getTestSuiteAttribute('file');
         $snapshotPath = sprintf('%s/__snapshots__/%s.snap', dirname($parent), basename($parent));
 
         return $snapshotPath;
@@ -78,9 +83,12 @@ trait SnapshotAssertions
      */
     private function getSnapshotContents($snapshotPath)
     {
-        // If we're in update mode, purge the snapshots to
-        // recreate them from scratch
-        if ($this->isUpdate() && $this->assertionsInTest === [] && file_exists($snapshotPath)) {
+        // If we're in update mode, purge the snapshots to recreate
+        // them from scratch if this is the first assertion
+        // of this test suite
+        $className = get_class($this);
+        $assertions = array_values(static::$assertionsInTest[$className]);
+        if ($this->isUpdate() && $assertions === [0] && file_exists($snapshotPath)) {
             unlink($snapshotPath);
         }
 
@@ -96,6 +104,23 @@ trait SnapshotAssertions
             : [];
 
         return $contents;
+    }
+
+    /**
+     * @param string $attribute
+     *
+     * @return mixed
+     */
+    private function getTestSuiteAttribute($attribute)
+    {
+        $backtrace = debug_backtrace();
+        foreach ($backtrace as $entry) {
+            if (strpos($entry['file'], 'vendor') === false && $entry['file'] !== __FILE__) {
+                return $entry[$attribute];
+            }
+        }
+
+        throw new RuntimeException('Could not figure out proper path for snapshot');
     }
 
     /**

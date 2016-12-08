@@ -2,10 +2,8 @@
 
 namespace Madewithlove\PhpunitSnapshots;
 
-class SnapshotAssertionsTest extends \PHPUnit_Framework_TestCase
+class SnapshotAssertionsTest extends TestCase
 {
-    use SnapshotAssertions;
-
     public function testCanUseSnapshotTesting()
     {
         $this->assertEqualsSnapshot(['foo', 'bar']);
