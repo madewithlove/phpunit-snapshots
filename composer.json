@@ -1,0 +1,23 @@
+{
+    "name": "madewithlove/phpunit-snapshot",
+    "description": "Snaphot testing for PHPUnit",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Madewithlove",
+            "email": "heroes@madewithlove.be"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Madewithlove\\PhpunitSnapshot\\": "src"
+        }
+    },
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^5.7"
+    },
+    "scripts": {
+        "test": "phpunit"
+    }
+}
