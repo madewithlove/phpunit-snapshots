@@ -1,6 +1,10 @@
 {
-    "testCanUseSnapshotTesting": [
+    "testCanUseSnapshotTesting-0": [
         "foo",
         "bar"
+    ],
+    "testCanUseSnapshotTesting-1": [
+        "foo",
+        "baz"
     ]
 }

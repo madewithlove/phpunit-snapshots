@@ -8,5 +8,6 @@ class SnapshotAssertionsTest extends \PHPUnit_Framework_TestCase
     public function testCanUseSnapshotTesting()
     {
         $this->assertEqualsSnapshot(['foo', 'bar']);
+        $this->assertEqualsSnapshot(['foo', 'baz']);
     }
 }
