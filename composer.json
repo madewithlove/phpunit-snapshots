@@ -2,6 +2,7 @@
     "name": "madewithlove/phpunit-snapshot",
     "description": "Snaphot testing for PHPUnit",
     "license": "MIT",
+    "keywords": ["phpunit", "snapshot"],
     "authors": [
         {
             "name": "Madewithlove",
@@ -15,10 +16,15 @@
     },
     "require": {},
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.0",
         "phpunit/phpunit": "^5.7",
         "symfony/var-dumper": "^3.2"
     },
     "scripts": {
-        "test": "phpunit"
+        "test": "phpunit",
+        "lint": "php-cs-fixer fix"
+    },
+    "config": {
+        "sort-packages": true
     }
 }

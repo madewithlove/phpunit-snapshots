@@ -1,4 +1,5 @@
 <?php
+
 namespace Madewithlove\PhpunitSnapshot;
 
 class SnapshotAssertionsTest extends \PHPUnit_Framework_TestCase

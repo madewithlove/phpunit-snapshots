@@ -1,4 +1,5 @@
 <?php
+
 namespace Madewithlove\PhpunitSnapshot;
 
 trait SnapshotAssertions
@@ -10,7 +11,7 @@ trait SnapshotAssertions
 
     /**
      * Asserts that a given output matches a registered snapshot
-     * or update the latter if it doesn't exist yet
+     * or update the latter if it doesn't exist yet.
      *
      * Passing an --update flag to PHPUnit will force updating
      * all snapshots
@@ -39,7 +40,7 @@ trait SnapshotAssertions
     ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Get an unique identifier for this particular assertion
+     * Get an unique identifier for this particular assertion.
      *
      * @return string
      */
