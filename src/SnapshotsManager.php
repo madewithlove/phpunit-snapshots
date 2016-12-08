@@ -22,6 +22,10 @@ class SnapshotsManager
      */
     public static function setSuite($suite)
     {
+        if (get_class(static::$suite) !== get_class($suite)) {
+            static::$assertionsInTest = [];
+        }
+
         static::$suite = $suite;
     }
 
@@ -52,8 +56,7 @@ class SnapshotsManager
         // If we're in update mode, purge the snapshots to recreate
         // them from scratch if this is the first assertion
         // of this test suite
-        $className = get_class(static::$suite);
-        $assertions = array_values(static::$assertionsInTest[$className]);
+        $assertions = array_values(static::$assertionsInTest);
         if (static::isUpdate() && $assertions === [0] && file_exists($snapshotPath)) {
             unlink($snapshotPath);
         }
@@ -104,13 +107,12 @@ class SnapshotsManager
     {
         // Keep a registry of how many assertions were run
         // in this test suite, and in this test
-        $className = get_class(static::$suite);
         $methodName = static::$suite->getName();
-        static::$assertionsInTest[$className][$methodName] = isset(static::$assertionsInTest[$className][$methodName])
-            ? static::$assertionsInTest[$className][$methodName]
+        static::$assertionsInTest[$methodName] = isset(static::$assertionsInTest[$methodName])
+            ? static::$assertionsInTest[$methodName]
             : -1;
 
-        $name = $methodName.'-'.++static::$assertionsInTest[$className][$methodName];
+        $name = $methodName.'-'.++static::$assertionsInTest[$methodName];
         $name = $identifier ? $name.': '.$identifier : $name;
 
         return $name;
@@ -135,6 +137,6 @@ class SnapshotsManager
      */
     public static function isUpdate()
     {
-        return in_array('--update', $_SERVER['argv']);
+        return in_array('--update', $_SERVER['argv'], true);
     }
 }
