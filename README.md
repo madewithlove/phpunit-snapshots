@@ -18,6 +18,9 @@ composer require madewithlove/phpunit-snapshots
 
 ### Using snapshots in tests
 
+Simply call the assertion on any encodable result (the result of a function, a variable, etc.).
+You can pass an identifier as second argument which will be used as title of the snapshot in the snapshot file.
+
 ```php
 <?php
 class MyTestCase extends \PHPUnit_Framework_TestCase
@@ -26,9 +29,8 @@ class MyTestCase extends \PHPUnit_Framework_TestCase
     
     public function testSomething()
     {
-        $this->assertEqualsSnapshot(
-            $this->someComplexOperation()
-        );
+        $this->assertEqualsSnapshot($this->someComplexOperation());
+        $this->assertEqualsSnapshot($this->someComplexOperation(), 'Compute something');
     }
 }
 ```

@@ -1,6 +1,9 @@
 # CHANGELOG
 
 ## 0.1.1 - 2016-12-08
+### Added
+- Added ability to add an identifier to a snapshot
+
 ### Fixed
 - Fixed some edge-cases when generating snapshots
 
