@@ -1,10 +1,6 @@
 {
-    "testCanUseSnapshotTesting-0": [
+    "testCanEvenUseItInMultipleTests-0: some identifier": [
         "foo",
         "bar"
-    ],
-    "testCanUseSnapshotTesting-1": [
-        "foo",
-        "baz"
     ]
 }

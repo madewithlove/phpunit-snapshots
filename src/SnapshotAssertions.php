@@ -17,16 +17,17 @@ trait SnapshotAssertions
      * all snapshots
      *
      * @param mixed       $expected
-     * @param string|null $message
+     * @param string|null $identifier An additional identifier to append to the snapshot ID
+     * @param string|null $message    A message to throw in case of error
      */
-    protected function assertEqualsSnapshot($expected, $message = null)
+    protected function assertEqualsSnapshot($expected, $identifier = null, $message = null)
     {
         $snapshotPath = $this->getPathToSnapshot();
         $contents = $this->getSnapshotContents($snapshotPath);
 
         // If we already have a snapshot for this test, assert its contents
         // or update it if the --update flag was passed
-        $methodName = $this->getAssertionIdentifier();
+        $methodName = $this->getAssertionIdentifier($identifier);
         if (!isset($contents[$methodName]) || $this->isUpdate()) {
             $contents[$methodName] = $expected;
             file_put_contents($snapshotPath, json_encode($contents, JSON_PRETTY_PRINT));
@@ -42,16 +43,21 @@ trait SnapshotAssertions
     /**
      * Get an unique identifier for this particular assertion.
      *
+     * @param string|null $identifier
+     *
      * @return string
      */
-    private function getAssertionIdentifier()
+    private function getAssertionIdentifier($identifier)
     {
         $methodName = $this->getName();
         if (!isset($this->assertionsInTest[$methodName])) {
             $this->assertionsInTest[$methodName] = -1;
         }
 
-        return $methodName.'-'.++$this->assertionsInTest[$methodName];
+        $name = $methodName.'-'.++$this->assertionsInTest[$methodName];
+        $name = $identifier ? $name.': '.$identifier : $name;
+
+        return $name;
     }
 
     /**
