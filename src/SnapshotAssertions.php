@@ -1,6 +1,6 @@
 <?php
 
-namespace Madewithlove\PhpunitSnapshot;
+namespace Madewithlove\PhpunitSnapshots;
 
 trait SnapshotAssertions
 {
