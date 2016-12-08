@@ -10,7 +10,7 @@ class SnapshotAssertionsTest extends TestCase
         $this->assertEqualsSnapshot(['foo', 'baz']);
     }
 
-    public function testCanEvenUseItInMultipleTests()
+    public function testCanUseItInMultipleTests()
     {
         $this->assertEqualsSnapshot(['foo', 'bar'], 'some identifier');
     }

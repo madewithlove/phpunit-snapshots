@@ -7,7 +7,7 @@
         "foo",
         "baz"
     ],
-    "testCanEvenUseItInMultipleTests-0: some identifier": [
+    "testCanUseItInMultipleTests-0: some identifier": [
         "foo",
         "bar"
     ]

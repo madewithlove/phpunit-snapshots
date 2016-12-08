@@ -69,7 +69,7 @@ class SnapshotsManager
         // If the file exists, fetch its contents, else
         // start from a new snapshot
         $contents = file_exists($snapshotPath)
-            ? json_decode(file_get_contents($snapshotPath), true)
+            ? static::unserialize(file_get_contents($snapshotPath))
             : [];
 
         return $contents;
@@ -90,7 +90,7 @@ class SnapshotsManager
         // or update it if the --update flag was passed
         if (!isset($contents[$identifier]) || static::isUpdate()) {
             $contents[$identifier] = $expected;
-            file_put_contents(static::getSnapshotPath(), json_encode($contents, JSON_PRETTY_PRINT));
+            file_put_contents(static::getSnapshotPath(), static::serialize($contents));
         }
 
         return $contents[$identifier];
@@ -138,5 +138,29 @@ class SnapshotsManager
     public static function isUpdate()
     {
         return in_array('--update', $_SERVER['argv'], true);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////// SERIALIZATION /////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param mixed $something
+     *
+     * @return string
+     */
+    protected static function serialize($something)
+    {
+        return json_encode($something, JSON_PRETTY_PRINT);
+    }
+
+    /**
+     * @param mixed $something
+     *
+     * @return mixed
+     */
+    protected static function unserialize($something)
+    {
+        return json_decode($something, true);
     }
 }
