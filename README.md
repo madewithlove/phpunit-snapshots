@@ -1,8 +1,12 @@
 # PHPUnit Snapshots
 
+This trait allows you to use [Jest-like](https://facebook.github.io/jest/) snapshot testing in your PHPUnit tests.
+
+It is a very basic trait and is only meant to snapshot JSON-encodable structures, not complex objects and such.
+
 ## Installation
 
-```
+```bash
 composer require madewithlove/phpunit-snapshots
 ```
 
@@ -11,6 +15,7 @@ composer require madewithlove/phpunit-snapshots
 ### Using snapshots in tests
 
 ```php
+<?php
 class MyTestCase extends \PHPUnit_Framework_TestCase
 {
     use \Madewithlove\PhpunitSnapshots\SnapshotAssertions;
