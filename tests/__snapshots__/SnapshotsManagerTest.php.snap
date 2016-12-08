@@ -1,0 +1,7 @@
+{
+    "testCanCheckIfIsUpdate-0": "foobar",
+    "testCanGetTestSuitePath-0": "foobar",
+    "testCanGetPathToSnapshot-0": "foobar",
+    "testCanGetAssertionIdentifier-0": "foobar",
+    "testCanGetSnapshotContents-0": "foobar"
+}

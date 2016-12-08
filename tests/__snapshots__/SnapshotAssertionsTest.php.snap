@@ -1,9 +1,9 @@
 {
-    "testCanUseSnapshotTesting-0": [
+    "testCanGetTestSuitePath-0": [
         "foo",
         "bar"
     ],
-    "testCanUseSnapshotTesting-1": [
+    "testCanGetTestSuitePath-1": [
         "foo",
         "baz"
     ],
