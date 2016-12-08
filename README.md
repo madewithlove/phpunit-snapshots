@@ -1,5 +1,9 @@
 # PHPUnit Snapshots
 
+[![Build Status](http://img.shields.io/travis/madewithlove/phpunit-snapshots.svg?style=flat-square)](https://travis-ci.org/madewithlove/phpunit-snapshots)
+[![Latest Stable Version](http://img.shields.io/packagist/v/madewithlove/phpunit-snapshots.svg?style=flat-square)](https://packagist.org/packages/madewithlove/phpunit-snapshots)
+[![Total Downloads](http://img.shields.io/packagist/dt/madewithlove/phpunit-snapshots.svg?style=flat-square)](https://packagist.org/packages/madewithlove/phpunit-snapshots)
+
 This trait allows you to use [Jest-like](https://facebook.github.io/jest/) snapshot testing in your PHPUnit tests.
 
 It is a very basic trait and is only meant to snapshot JSON-encodable structures, not complex objects and such.
